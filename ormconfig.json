@@ -7,12 +7,8 @@
     "database": "precifica",
     "synchronize": true,
     "logging": true,
-    "entities": [
-       "src/database/models/**/*.ts"
-    ],
-    "migrations": [
-       "src/database/migrations/index.ts"
-    ],
+    "entities": "src/database/models/index.ts",
+    "migrations": "src/database/migrations/index.ts",
     "cli": {
         "migrationsDir": "/src/database/migrations"
     }
