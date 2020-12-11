@@ -4,8 +4,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from 'src/app.controller';
 import { AppService } from 'src/app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserController } from 'src/controllers/user.controller';
-import { UserService } from 'src/services/user.service';
+import { UserController } from './controllers/user.controller';
+import { UserService } from './services/user.service';
+import { ProductController } from './controllers/product.controller';
+import { ProductService } from './services/product.service'
 
 @Module({
   imports: [
@@ -13,7 +15,7 @@ import { UserService } from 'src/services/user.service';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'root',
+      username: 'postgres',
       password: 'root',
       database: 'precifica',
       synchronize: true,
@@ -25,7 +27,7 @@ import { UserService } from 'src/services/user.service';
     }),
     TypeOrmModule.forFeature(entities),
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [AppController, UserController, ProductController ],
+  providers: [AppService, UserService, ProductService ],
 })
 export class AppModule {}

@@ -4,7 +4,7 @@ import { IListProducts } from 'src/interfaces/list-products.interface';
 import { ProductService } from 'src/services/product.service';
 
 @Controller('products')
-export class UserController {
+export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
