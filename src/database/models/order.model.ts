@@ -4,9 +4,11 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Product } from 'src/database/models/product.model';
+import { User } from 'src/database/models/user.model';
 
 @Entity('order')
 export class Order {
@@ -41,4 +43,7 @@ export class Order {
     inverseJoinColumn: { name: 'product_id' },
   })
   products?: Product[];
+
+  @ManyToOne(() => User, (user) => user.products)
+  user: User;
 }

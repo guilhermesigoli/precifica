@@ -2,11 +2,13 @@ import {
   Column,
   Entity,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Input } from 'src/database/models/input.model';
 import { Order } from 'src/database/models/order.model';
+import { User } from 'src/database/models/user.model';
 
 @Entity('product')
 export class Product {
@@ -42,4 +44,7 @@ export class Product {
 
   @ManyToMany(() => Order, (order) => order.products, { cascade: true })
   orders?: Order[];
+
+  @ManyToOne(() => User, (user) => user.products)
+  user: User;
 }
