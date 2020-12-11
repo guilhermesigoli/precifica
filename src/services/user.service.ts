@@ -1,21 +1,21 @@
-import { jwtConstants } from 'src/jwt-auth/jwt-constants';
+import { EXPIRES_IN } from 'src/jwt-auth/jwt-constants';
+import { JWT_SECRET } from 'src/jwt-auth/jwt-constants';
 import { IUserLoginResponse } from 'src/interfaces/user-login-response.interface';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync, hash } from 'bcryptjs';
-import { JwtService } from '@nestjs/jwt/dist/jwt.service';
 import { User } from 'src/database/models/user.model';
 import { UserRegistrationInputDto } from 'src/dtos/user-registration-input.dto';
 import { IUserRegistrationResponse } from 'src/interfaces/user-registration-response.interface';
 import { UserLoginInputDto } from 'src/dtos/user-login-input.dto';
+import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly jwtService: JwtService,
   ) {}
 
   async userRegistration(
@@ -39,9 +39,8 @@ export class UserService {
 
     return {
       name: newUser.name,
-      token: this.jwtService.sign({email: newUser.email}, { 
-        expiresIn: jwtConstants.EXPIRES_IN,
-        secret: jwtConstants.JWT_SECRET
+      token: jwt.sign({ email: newUser.email }, JWT_SECRET, {
+        expiresIn: EXPIRES_IN,
       }),
     };
   }
@@ -53,7 +52,7 @@ export class UserService {
     });
 
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
     if (!compareSync(body.password, user.password)) {
@@ -61,9 +60,8 @@ export class UserService {
     }
 
     return {
-      token: this.jwtService.sign(user.email, { 
-        expiresIn: jwtConstants.EXPIRES_IN,
-        secret: jwtConstants.JWT_SECRET
+      token: jwt.sign({ email: user.email }, JWT_SECRET, {
+        expiresIn: EXPIRES_IN,
       }),
     };
   }

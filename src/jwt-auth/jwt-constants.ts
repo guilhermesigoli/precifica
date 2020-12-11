@@ -1,4 +1,2 @@
-export const jwtConstants = {
-    JWT_SECRET: 'hEyAcU9u4EthOQaML6rU',
-    EXPIRES_IN: 60*60*24
-}
+export const JWT_SECRET = 'hEyAcU9u4EthOQaML6rU';
+export const EXPIRES_IN = '24h';

@@ -15,8 +15,6 @@ var app_service_1 = require("src/app.service");
 var typeorm_1 = require("@nestjs/typeorm");
 var user_controller_1 = require("src/controllers/user.controller");
 var user_service_1 = require("src/services/user.service");
-var jwt_1 = require("@nestjs/jwt");
-var jwt_constants_1 = require("src/jwt-auth/jwt-constants");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -31,7 +29,6 @@ var AppModule = /** @class */ (function () {
                     password: "root",
                     database: "precifica",
                     synchronize: true,
-                    logging: true,
                     entities: index_2.entities,
                     migrations: index_1.migrations,
                     cli: {
@@ -39,10 +36,6 @@ var AppModule = /** @class */ (function () {
                     }
                 }),
                 typeorm_1.TypeOrmModule.forFeature(index_2.entities),
-                jwt_1.JwtModule.register({
-                    secret: jwt_constants_1.jwtConstants.JWT_SECRET,
-                    signOptions: { expiresIn: jwt_constants_1.jwtConstants.EXPIRES_IN }
-                }),
             ],
             controllers: [app_controller_1.AppController, user_controller_1.UserController],
             providers: [app_service_1.AppService, user_service_1.UserService]
