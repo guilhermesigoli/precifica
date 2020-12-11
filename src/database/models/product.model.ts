@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
@@ -45,6 +46,10 @@ export class Product {
   @ManyToMany(() => Order, (order) => order.products, { cascade: true })
   orders?: Order[];
 
+  @Column({ name: 'user_id', type: 'bigint' })
+  userId!: string;
+
   @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 }

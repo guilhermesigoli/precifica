@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -46,12 +57,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.ProductService = void 0;
+var input_model_1 = require("./../database/models/input.model");
+var calculation_service_1 = require("./calculation.service");
 var common_1 = require("@nestjs/common");
-var typeorm_1 = require("@nestjs/typeorm");
+var typeorm_1 = require("typeorm");
+var typeorm_2 = require("@nestjs/typeorm");
 var product_model_1 = require("src/database/models/product.model");
 var ProductService = /** @class */ (function () {
-    function ProductService(productRepository) {
+    function ProductService(productRepository, calculationService) {
         this.productRepository = productRepository;
+        this.calculationService = calculationService;
     }
     ProductService.prototype.listProducts = function () {
         return __awaiter(this, void 0, Promise, function () {
@@ -96,9 +111,57 @@ var ProductService = /** @class */ (function () {
             });
         });
     };
+    ProductService.prototype.createProduct = function (body) {
+        return __awaiter(this, void 0, Promise, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, typeorm_1.getConnection().transaction(function (transactionalEntityManager) { return __awaiter(_this, void 0, void 0, function () {
+                            var productRepository, inputRepository, inputsPrices, inputsTotalPrice, productTotalPrice, newProduct, _i, _a, input;
+                            return __generator(this, function (_b) {
+                                switch (_b.label) {
+                                    case 0:
+                                        productRepository = transactionalEntityManager.getRepository(product_model_1.Product);
+                                        inputRepository = transactionalEntityManager.getRepository(input_model_1.Input);
+                                        inputsPrices = body.inputs.map(function (input) { return (calculation_service_1.CalculationService.calcTotalPercent(input.totalPrice, input.usedPercentage)); });
+                                        inputsTotalPrice = '0';
+                                        inputsPrices.forEach(function (price) {
+                                            inputsTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, price);
+                                        });
+                                        productTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, calculation_service_1.CalculationService.calcTotalPercent(inputsTotalPrice, body.profitPercentage));
+                                        return [4 /*yield*/, productRepository.save({
+                                                name: body.name,
+                                                profitPercentage: body.profitPercentage,
+                                                totalPrice: productTotalPrice,
+                                                inputsPrice: inputsTotalPrice,
+                                                userId: body.userId
+                                            })];
+                                    case 1:
+                                        newProduct = _b.sent();
+                                        _i = 0, _a = body.inputs;
+                                        _b.label = 2;
+                                    case 2:
+                                        if (!(_i < _a.length)) return [3 /*break*/, 5];
+                                        input = _a[_i];
+                                        return [4 /*yield*/, inputRepository.save(__assign(__assign({}, input), { productId: newProduct.id }))];
+                                    case 3:
+                                        _b.sent();
+                                        _b.label = 4;
+                                    case 4:
+                                        _i++;
+                                        return [3 /*break*/, 2];
+                                    case 5: return [2 /*return*/, newProduct];
+                                }
+                            });
+                        }); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     ProductService = __decorate([
         common_1.Injectable(),
-        __param(0, typeorm_1.InjectRepository(product_model_1.Product))
+        __param(0, typeorm_2.InjectRepository(product_model_1.Product))
     ], ProductService);
     return ProductService;
 }());

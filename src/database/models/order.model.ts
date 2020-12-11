@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -44,6 +45,10 @@ export class Order {
   })
   products?: Product[];
 
+  @Column({ name: 'user_id', type: 'bigint' })
+  userId!: string;
+
   @ManyToOne(() => User, (user) => user.products)
+  @JoinColumn({ name: 'user_id' })
   user: User;
 }

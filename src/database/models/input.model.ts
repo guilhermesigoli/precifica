@@ -27,7 +27,10 @@ export class Input {
   @Column({ name: 'used_percentage', type: 'int' })
   usedPercentage!: string;
 
+  @Column({ name: 'product_id', type: 'bigint' })
+  productId!: string;
+
   @ManyToOne(() => Product, (product) => product.inputs)
-  @JoinColumn({ name: 'id' })
+  @JoinColumn({ name: 'product_id' })
   product?: Product;
 }

@@ -46,7 +46,11 @@ var Order = /** @class */ (function () {
         })
     ], Order.prototype, "products");
     __decorate([
-        typeorm_1.ManyToOne(function () { return user_model_1.User; }, function (user) { return user.products; })
+        typeorm_1.Column({ name: 'user_id', type: 'bigint' })
+    ], Order.prototype, "userId");
+    __decorate([
+        typeorm_1.ManyToOne(function () { return user_model_1.User; }, function (user) { return user.products; }),
+        typeorm_1.JoinColumn({ name: 'user_id' })
     ], Order.prototype, "user");
     Order = __decorate([
         typeorm_1.Entity('order')

@@ -9,42 +9,44 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 exports.__esModule = true;
-exports.UserController = void 0;
+exports.ProductController = void 0;
 var common_1 = require("@nestjs/common");
-var UserController = /** @class */ (function () {
-    function UserController(productService) {
+var ProductController = /** @class */ (function () {
+    function ProductController(productService) {
         this.productService = productService;
     }
-    UserController.prototype.listProducts = function () {
+    ProductController.prototype.listProducts = function () {
         return this.productService.listProducts();
     };
-    UserController.prototype.createProduct = function () {
-        return 'in production';
+    ProductController.prototype.createProduct = function (body) {
+        return this.productService.createProduct(body);
     };
-    UserController.prototype.deleteProduct = function (id) {
+    ProductController.prototype.deleteProduct = function (id) {
         return this.productService.deleteProduct(id);
     };
-    UserController.prototype.getOneProduct = function (id) {
+    ProductController.prototype.getOneProduct = function (id) {
         return this.productService.getOneProduct(id);
     };
     __decorate([
         common_1.Get()
-    ], UserController.prototype, "listProducts");
+    ], ProductController.prototype, "listProducts");
     __decorate([
-        common_1.Post()
-    ], UserController.prototype, "createProduct");
+        common_1.Post(),
+        common_1.HttpCode(201),
+        __param(0, common_1.Body())
+    ], ProductController.prototype, "createProduct");
     __decorate([
         common_1.Post('/delete/:id'),
         common_1.HttpCode(200),
         __param(0, common_1.Param('id'))
-    ], UserController.prototype, "deleteProduct");
+    ], ProductController.prototype, "deleteProduct");
     __decorate([
         common_1.Get(':id'),
         __param(0, common_1.Param('id'))
-    ], UserController.prototype, "getOneProduct");
-    UserController = __decorate([
+    ], ProductController.prototype, "getOneProduct");
+    ProductController = __decorate([
         common_1.Controller('products')
-    ], UserController);
-    return UserController;
+    ], ProductController);
+    return ProductController;
 }());
-exports.UserController = UserController;
+exports.ProductController = ProductController;

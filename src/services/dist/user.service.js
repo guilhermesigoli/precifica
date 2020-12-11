@@ -87,6 +87,7 @@ var UserService = /** @class */ (function () {
                         newUser = _a.sent();
                         return [2 /*return*/, {
                                 name: newUser.name,
+                                id: newUser.id,
                                 token: jwt.sign({ email: newUser.email }, jwt_constants_2.JWT_SECRET, {
                                     expiresIn: jwt_constants_1.EXPIRES_IN
                                 })
@@ -113,7 +114,9 @@ var UserService = /** @class */ (function () {
                             throw new common_1.HttpException('Invalid Credentials', common_1.HttpStatus.BAD_REQUEST);
                         }
                         return [2 /*return*/, {
-                                token: jwt.sign({ email: user.email }, jwt_constants_2.JWT_SECRET, {
+                                name: user.name,
+                                id: user.id,
+                                token: jwt.sign({ email: user.email, id: user.id }, jwt_constants_2.JWT_SECRET, {
                                     expiresIn: jwt_constants_1.EXPIRES_IN
                                 })
                             }];

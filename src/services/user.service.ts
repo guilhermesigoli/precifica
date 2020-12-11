@@ -39,6 +39,7 @@ export class UserService {
 
     return {
       name: newUser.name,
+      id: newUser.id,
       token: jwt.sign({ email: newUser.email }, JWT_SECRET, {
         expiresIn: EXPIRES_IN,
       }),
@@ -60,7 +61,9 @@ export class UserService {
     }
 
     return {
-      token: jwt.sign({ email: user.email }, JWT_SECRET, {
+      name: user.name,
+      id: user.id,
+      token: jwt.sign({ email: user.email, id: user.id }, JWT_SECRET, {
         expiresIn: EXPIRES_IN,
       }),
     };

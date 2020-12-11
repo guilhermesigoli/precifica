@@ -1,3 +1,5 @@
+import { CalculationService } from './services/calculation.service';
+import { ProductService } from 'src/services/product.service';
 import { migrations } from 'src/database/migrations/index';
 import { entities } from 'src/database/models/index';
 import { Module } from '@nestjs/common';
@@ -6,6 +8,7 @@ import { AppService } from 'src/app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from 'src/controllers/user.controller';
 import { UserService } from 'src/services/user.service';
+import { ProductController } from 'src/controllers/product.controller';
 
 @Module({
   imports: [
@@ -25,7 +28,7 @@ import { UserService } from 'src/services/user.service';
     }),
     TypeOrmModule.forFeature(entities),
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [AppController, UserController, ProductController],
+  providers: [AppService, UserService, ProductService, CalculationService],
 })
 export class AppModule {}

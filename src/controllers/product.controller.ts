@@ -1,10 +1,11 @@
-import { Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { CreateProductInputDto } from 'src/dtos/create-product-input.dto';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { Product } from 'src/database/models/product.model';
 import { IListProducts } from 'src/interfaces/list-products.interface';
 import { ProductService } from 'src/services/product.service';
 
 @Controller('products')
-export class UserController {
+export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
@@ -13,8 +14,9 @@ export class UserController {
   }
 
   @Post()
-  createProduct(): string {
-    return 'in production';
+  @HttpCode(201)
+  createProduct(@Body() body: CreateProductInputDto): Promise<Product> {
+    return this.productService.createProduct(body);
   }
 
   @Post('/delete/:id')
