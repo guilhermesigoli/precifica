@@ -42,6 +42,9 @@ var Product = /** @class */ (function () {
         typeorm_1.Column({ name: 'profit_percentage', type: 'int' })
     ], Product.prototype, "profitPercentage");
     __decorate([
+        typeorm_1.Column({ name: 'is_avaible', type: 'boolean' })
+    ], Product.prototype, "isAvaible");
+    __decorate([
         typeorm_1.OneToMany(function () { return input_model_1.Input; }, function (input) { return input.product; })
     ], Product.prototype, "inputs");
     __decorate([

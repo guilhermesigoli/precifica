@@ -41,7 +41,7 @@ var ProductController = /** @class */ (function () {
         __param(0, common_1.Param('id'))
     ], ProductController.prototype, "deleteProduct");
     __decorate([
-        common_1.Get(':id'),
+        common_1.Get('/:id'),
         __param(0, common_1.Param('id'))
     ], ProductController.prototype, "getOneProduct");
     ProductController = __decorate([

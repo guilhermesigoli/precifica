@@ -40,6 +40,9 @@ export class Product {
   @Column({ name: 'profit_percentage', type: 'int' })
   profitPercentage!: string;
 
+  @Column({ name: 'is_avaible', type: 'boolean' })
+  isAvaible!: boolean;
+
   @OneToMany(() => Input, (input) => input.product)
   inputs?: Input[];
 

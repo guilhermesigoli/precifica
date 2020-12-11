@@ -1,3 +1,3 @@
-import { InitialMigration1607695695291 } from 'src/database/migrations/1607695695291-InitialMigration';
+import { InitialMigration1607704203231 } from 'src/database/migrations/1607704203231-InitialMigration';
 
-export const migrations = [InitialMigration1607695695291];
+export const migrations = [InitialMigration1607704203231];

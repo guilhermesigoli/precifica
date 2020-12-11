@@ -74,6 +74,7 @@ var ProductService = /** @class */ (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.productRepository.findAndCount({
+                            where: { isAvaible: true },
                             select: ['id', 'name', 'totalPrice']
                         })];
                     case 1:
@@ -88,6 +89,7 @@ var ProductService = /** @class */ (function () {
     };
     ProductService.prototype.getOneProduct = function (id) {
         return __awaiter(this, void 0, Promise, function () {
+            var product;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.productRepository.findOne({
@@ -96,17 +98,31 @@ var ProductService = /** @class */ (function () {
                             },
                             relations: ['inputs']
                         })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        product = _a.sent();
+                        if (!product) {
+                            throw new common_1.HttpException('Product not found', common_1.HttpStatus.NOT_FOUND);
+                        }
+                        return [2 /*return*/, product];
                 }
             });
         });
     };
     ProductService.prototype.deleteProduct = function (id) {
         return __awaiter(this, void 0, void 0, function () {
+            var product;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.productRepository["delete"](id)];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0: return [4 /*yield*/, this.productRepository.findOne({ where: { id: id, isAvaible: true } })];
+                    case 1:
+                        product = _a.sent();
+                        if (!product) {
+                            throw new common_1.HttpException('Product not found', common_1.HttpStatus.NOT_FOUND);
+                        }
+                        return [4 /*yield*/, this.productRepository.update({ id: id }, { isAvaible: false })];
+                    case 2:
+                        _a.sent();
+                        return [2 /*return*/];
                 }
             });
         });
@@ -123,7 +139,9 @@ var ProductService = /** @class */ (function () {
                                     case 0:
                                         productRepository = transactionalEntityManager.getRepository(product_model_1.Product);
                                         inputRepository = transactionalEntityManager.getRepository(input_model_1.Input);
-                                        inputsPrices = body.inputs.map(function (input) { return (calculation_service_1.CalculationService.calcTotalPercent(input.totalPrice, input.usedPercentage)); });
+                                        inputsPrices = body.inputs.map(function (input) {
+                                            return calculation_service_1.CalculationService.calcTotalPercent(input.totalPrice, input.usedPercentage);
+                                        });
                                         inputsTotalPrice = '0';
                                         inputsPrices.forEach(function (price) {
                                             inputsTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, price);
@@ -134,7 +152,8 @@ var ProductService = /** @class */ (function () {
                                                 profitPercentage: body.profitPercentage,
                                                 totalPrice: productTotalPrice,
                                                 inputsPrice: inputsTotalPrice,
-                                                userId: body.userId
+                                                userId: body.userId,
+                                                isAvaible: true
                                             })];
                                     case 1:
                                         newProduct = _b.sent();

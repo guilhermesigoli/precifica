@@ -1,6 +1,6 @@
 import { Input } from './../database/models/input.model';
 import { CalculationService } from './calculation.service';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getConnection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from 'src/database/models/product.model';
@@ -17,6 +17,7 @@ export class ProductService {
 
   async listProducts(): Promise<IListProducts> {
     const [products, total] = await this.productRepository.findAndCount({
+      where: { isAvaible: true },
       select: ['id', 'name', 'totalPrice'],
     });
 
@@ -27,16 +28,31 @@ export class ProductService {
   }
 
   async getOneProduct(id: string): Promise<Product> {
-    return await this.productRepository.findOne({
+    const product = await this.productRepository.findOne({
       where: {
         id,
       },
       relations: ['inputs'],
     });
+
+    if (!product) {
+      throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+    }
+    return product;
   }
 
   async deleteProduct(id: string) {
-    return await this.productRepository.delete(id);
+    const product = await this.productRepository.findOne({
+      where: { id, isAvaible: true },
+    });
+
+    if (!product) {
+      throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+    }
+
+    await this.productRepository.update({ id }, { isAvaible: false });
+
+    return;
   }
 
   async createProduct(body: CreateProductInputDto): Promise<Product> {
@@ -74,6 +90,7 @@ export class ProductService {
           totalPrice: productTotalPrice,
           inputsPrice: inputsTotalPrice,
           userId: body.userId,
+          isAvaible: true,
         });
 
         for (const input of body.inputs) {

@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class InitialMigration1607695695291 implements MigrationInterface {
-  name = 'InitialMigration1607695695291';
+export class InitialMigration1607704203231 implements MigrationInterface {
+  name = 'InitialMigration1607704203231';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -14,7 +14,7 @@ export class InitialMigration1607695695291 implements MigrationInterface {
       `CREATE TABLE "order" ("id" BIGSERIAL NOT NULL, "created_at" TIMESTAMP(3) NOT NULL DEFAULT now(), "total_price" numeric(11,2) NOT NULL DEFAULT '0.00', "inputs_price" numeric(11,2) NOT NULL DEFAULT '0.00', "user_id" bigint NOT NULL, CONSTRAINT "PK_1031171c13130102495201e3e20" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "product" ("id" BIGSERIAL NOT NULL, "name" character varying NOT NULL, "total_price" numeric(11,2) NOT NULL DEFAULT '0.00', "inputs_price" numeric(11,2) NOT NULL DEFAULT '0.00', "profit_percentage" integer NOT NULL, "user_id" bigint NOT NULL, CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "product" ("id" BIGSERIAL NOT NULL, "name" character varying NOT NULL, "total_price" numeric(11,2) NOT NULL DEFAULT '0.00', "inputs_price" numeric(11,2) NOT NULL DEFAULT '0.00', "profit_percentage" integer NOT NULL, "is_avaible" boolean NOT NULL, "user_id" bigint NOT NULL, CONSTRAINT "PK_bebc9158e480b949565b4dc7a82" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "order_product_order" ("order_id" bigint NOT NULL, "product_id" bigint NOT NULL, CONSTRAINT "PK_84d164f50a1ee5aebd5f2a6ec45" PRIMARY KEY ("order_id", "product_id"))`,

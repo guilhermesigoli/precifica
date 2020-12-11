@@ -25,7 +25,7 @@ export class ProductController {
     return this.productService.deleteProduct(id);
   }
 
-  @Get(':id')
+  @Get('/:id')
   getOneProduct(@Param('id') id: string): Promise<Product> {
     return this.productService.getOneProduct(id);
   }
