@@ -78,7 +78,8 @@ var ProductService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.productRepository.findOne({
                             where: {
                                 id: id
-                            }
+                            },
+                            relations: ['inputs']
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
