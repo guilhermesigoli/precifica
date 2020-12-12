@@ -13,7 +13,7 @@ import { User } from 'src/database/models/user.model';
 
 @Entity('order')
 export class Order {
-  @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
+  @PrimaryGeneratedColumn({ name: 'order_id', type: 'bigint' })
   id!: string;
 
   @CreateDateColumn({ name: 'created_at', precision: 3 })
@@ -36,6 +36,9 @@ export class Order {
     scale: 2,
   })
   inputsPrice!: string;
+
+  @Column({ name: 'is_avaible', type: 'boolean' })
+  isAvaible!: boolean;
 
   @ManyToMany(() => Product, (product) => product.orders)
   @JoinTable({

@@ -9,6 +9,8 @@ import { UserController } from './controllers/user.controller';
 import { UserService } from './services/user.service';
 import { ProductController } from './controllers/product.controller';
 import { ProductService } from './services/product.service'
+import { OrderController } from './controllers/order.controller'
+import { OrderService } from './services/order.service'
 
 
 @Module({
@@ -29,7 +31,7 @@ import { ProductService } from './services/product.service'
     }),
     TypeOrmModule.forFeature(entities),
   ],
-  controllers: [AppController, UserController, ProductController],
-  providers: [AppService, UserService, ProductService, CalculationService],
+  controllers: [AppController, UserController, ProductController, OrderController],
+  providers: [AppService, UserService, ProductService, OrderService , CalculationService],
 })
 export class AppModule {}
