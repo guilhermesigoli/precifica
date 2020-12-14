@@ -8,12 +8,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './controllers/user.controller';
 import { UserService } from './services/user.service';
 import { ProductController } from './controllers/product.controller';
-import { ProductService } from './services/product.service'
-import { OrderController } from './controllers/order.controller'
-import { OrderService } from './services/order.service'
-import { InputController } from './controllers/input.controller'
-import { InputService } from './services/input.service'
-
+import { ProductService } from './services/product.service';
+import { OrderController } from './controllers/order.controller';
+import { OrderService } from './services/order.service';
+import { InputController } from './controllers/input.controller';
+import { InputService } from './services/input.service';
 
 @Module({
   imports: [
@@ -34,17 +33,19 @@ import { InputService } from './services/input.service'
     TypeOrmModule.forFeature(entities),
   ],
   controllers: [
-    AppController, 
-    UserController, 
-    ProductController, 
-    OrderController, 
-    InputController],
+    AppController,
+    UserController,
+    ProductController,
+    OrderController,
+    InputController,
+  ],
   providers: [
-    AppService, 
-    UserService, 
-    ProductService, 
-    OrderService, 
-    InputService, 
-    CalculationService],
+    AppService,
+    UserService,
+    ProductService,
+    OrderService,
+    InputService,
+    CalculationService,
+  ],
 })
 export class AppModule {}

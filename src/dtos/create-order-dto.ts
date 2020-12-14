@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsString, IsNotEmpty, IsDate, ValidateNested } from 'class-validator';
-import { CreateProductInputDto } from '../dtos/create-product-input.dto'
+import { CreateProductInputDto } from '../dtos/create-product-input.dto';
 
 export class CreateOrderDto {
   @IsString()
