@@ -16,7 +16,7 @@ export class InputService {
   async listInputs(): Promise<IListInputs> {
     const [inputs, total] = await this.inputRepository.findAndCount({
       where: { isAvaible: true },
-      select: ['id', 'name', 'totalPrice', 'usedPercentage', 'productId', 'product']
+      select: ['id', 'name', 'totalPrice', 'usedPercentage', 'product']
     });
 
     return {

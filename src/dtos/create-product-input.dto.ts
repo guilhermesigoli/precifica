@@ -13,6 +13,10 @@ export class CreateProductInputDto {
 
   @IsString()
   @IsNotEmpty()
+  totalPrice!: string;
+
+  @IsString()
+  @IsNotEmpty()
   profitPercentage!: string;
 
   @ValidateNested({ each: true })

@@ -1,9 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { getConnection, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CalculationService } from './calculation.service';
 import { Order } from 'src/database/models/order.model';
+import { Product } from 'src/database/models/product.model';
 import { IListOrders } from 'src/interfaces/list-order.interface';
 import { CreateOrderDto } from 'src/dtos/create-order-dto';
+import { setupMaster } from 'cluster';
 
 @Injectable()
 export class OrderService {
@@ -56,7 +59,19 @@ export class OrderService {
     return await getConnection().transaction(
       async (transactionalEntityManager) => {
         const orderRepository = transactionalEntityManager.getRepository(Order);
+        
+        var aux
+        const calcService = (product) => parseFloat(CalculationService.calcTotalPercent( product.totalPrice,  product.profitPercentage ))
+        const sum = (p, aux) => aux += p
 
+        console.log(body.products.map(calcService))
+        const inputsPrices = body.products.map(calcService).reduce(sum);
+
+        aux = 0
+        const totalPrice = body.products.map(p => parseFloat(p.totalPrice)).reduce(sum)
+        console.log(inputsPrices, totalPrice)
+
+        
         const data = new Date()
         const dia  = data.getDate().toString().padStart(2, '0')
         const mes  = (data.getMonth()+1).toString().padStart(2,'0')
@@ -64,9 +79,8 @@ export class OrderService {
         const createdAt = dia + "/" + mes + "/" + ano;
 
         const newOrder = await orderRepository.save({
-          createdAt: createdAt,
-          inputsPrice: '10.00',
-          totalPrice: '100.00',
+          inputsPrice: inputsPrices.toString(),
+          totalPrice: totalPrice.toString(),
           isAvaible: true,
           userId: body.userId,
         });
