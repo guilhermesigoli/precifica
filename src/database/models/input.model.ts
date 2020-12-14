@@ -24,6 +24,9 @@ export class Input {
   })
   totalPrice!: string;
 
+  @Column({ name: 'is_avaible', type: 'boolean' })
+  isAvaible!: boolean;
+
   @Column({ name: 'used_percentage', type: 'int' })
   usedPercentage!: string;
 
