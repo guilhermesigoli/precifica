@@ -27,7 +27,7 @@ export class OrderService {
   async getOneOrder(id: string): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: {
-        id,
+        id, isAvaible: true
       },
       relations: ['products'],
     });

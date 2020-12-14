@@ -12,4 +12,8 @@ export class CreateInputDto {
   @IsString()
   @IsNotEmpty()
   usedPercentage!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  productId!: string;
 }
