@@ -1,4 +1,10 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,24 +42,28 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var core_1 = require("@nestjs/core");
-var app_module_1 = require("./app.module");
-function bootstrap() {
-    return __awaiter(this, void 0, void 0, function () {
-        var app;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, core_1.NestFactory.create(app_module_1.AppModule)];
-                case 1:
-                    app = _a.sent();
-                    app.setGlobalPrefix('api');
-                    app.enableCors();
-                    return [4 /*yield*/, app.listen(3000)];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/];
-            }
+exports.ReportService = void 0;
+var common_1 = require("@nestjs/common");
+var ReportService = /** @class */ (function () {
+    function ReportService() {
+    }
+    // constructor() {}
+    ReportService.prototype.generateReport = function (params) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                console.log(params);
+                return [2 /*return*/, {
+                        inputsTotal: '0',
+                        total: '0',
+                        profit: '0',
+                        profitPercentage: '0'
+                    }];
+            });
         });
-    });
-}
-bootstrap();
+    };
+    ReportService = __decorate([
+        common_1.Injectable()
+    ], ReportService);
+    return ReportService;
+}());
+exports.ReportService = ReportService;

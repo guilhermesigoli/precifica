@@ -6,29 +6,27 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.CreateProductInputDto = void 0;
-var class_transformer_1 = require("class-transformer");
+exports.CreateInputDto = void 0;
 var class_validator_1 = require("class-validator");
-var create_input_input_dto_1 = require("src/dtos/create-input-input.dto");
-var CreateProductInputDto = /** @class */ (function () {
-    function CreateProductInputDto() {
+var CreateInputDto = /** @class */ (function () {
+    function CreateInputDto() {
     }
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], CreateProductInputDto.prototype, "userId");
+    ], CreateInputDto.prototype, "name");
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], CreateProductInputDto.prototype, "name");
+    ], CreateInputDto.prototype, "totalPrice");
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], CreateProductInputDto.prototype, "profitPercentage");
+    ], CreateInputDto.prototype, "usedPercentage");
     __decorate([
-        class_validator_1.ValidateNested({ each: true }),
-        class_transformer_1.Type(function () { return create_input_input_dto_1.CreateInputDto; })
-    ], CreateProductInputDto.prototype, "inputs");
-    return CreateProductInputDto;
+        class_validator_1.IsString(),
+        class_validator_1.IsNotEmpty()
+    ], CreateInputDto.prototype, "productId");
+    return CreateInputDto;
 }());
-exports.CreateProductInputDto = CreateProductInputDto;
+exports.CreateInputDto = CreateInputDto;

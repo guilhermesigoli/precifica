@@ -9,29 +9,22 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 exports.__esModule = true;
-exports.UserController = void 0;
+exports.ReportController = void 0;
 var common_1 = require("@nestjs/common");
-var UserController = /** @class */ (function () {
-    function UserController(userService) {
-        this.userService = userService;
+var ReportController = /** @class */ (function () {
+    function ReportController(reportService) {
+        this.reportService = reportService;
     }
-    UserController.prototype.registration = function (body) {
-        return this.userService.userRegistration(body);
-    };
-    UserController.prototype.login = function (body) {
-        return this.userService.userLogin(body);
+    ReportController.prototype.generateReport = function (params) {
+        return this.reportService.generateReport(params);
     };
     __decorate([
-        common_1.Post('/registration'),
-        __param(0, common_1.Body())
-    ], UserController.prototype, "registration");
-    __decorate([
-        common_1.Post('/login'),
-        __param(0, common_1.Body())
-    ], UserController.prototype, "login");
-    UserController = __decorate([
-        common_1.Controller('users')
-    ], UserController);
-    return UserController;
+        common_1.Get(),
+        __param(0, common_1.Query())
+    ], ReportController.prototype, "generateReport");
+    ReportController = __decorate([
+        common_1.Controller('reports')
+    ], ReportController);
+    return ReportController;
 }());
-exports.UserController = UserController;
+exports.ReportController = ReportController;

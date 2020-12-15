@@ -1,4 +1,4 @@
-import { CreateOrderDto } from 'src/dtos/create-order-dto'
+import { CreateOrderDto } from 'src/dtos/create-order-dto';
 import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
 import { Order } from 'src/database/models/order.model';
 import { IListOrders } from 'src/interfaces/list-order.interface';

@@ -1,6 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsString, IsNotEmpty, IsDate, ValidateNested } from 'class-validator';
-import { CreateProductInputDto } from '../dtos/create-product-input.dto'
+import { IsString, IsNotEmpty, IsDate, IsArray } from 'class-validator';
 
 export class CreateOrderDto {
   @IsString()
@@ -11,7 +9,7 @@ export class CreateOrderDto {
   @IsNotEmpty()
   createdAt: string;
 
-  @ValidateNested({ each: true })
-  @Type(() => CreateProductInputDto)
-  products!: CreateProductInputDto[];
+  @IsArray()
+  @IsString({ each: true })
+  productsIds!: string[];
 }

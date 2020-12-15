@@ -6,23 +6,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.CreateInputDto = void 0;
+exports.CreateOrderDto = void 0;
 var class_validator_1 = require("class-validator");
-var CreateInputDto = /** @class */ (function () {
-    function CreateInputDto() {
+var CreateOrderDto = /** @class */ (function () {
+    function CreateOrderDto() {
     }
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], CreateInputDto.prototype, "name");
+    ], CreateOrderDto.prototype, "userId");
     __decorate([
-        class_validator_1.IsString(),
+        class_validator_1.IsDate(),
         class_validator_1.IsNotEmpty()
-    ], CreateInputDto.prototype, "totalPrice");
+    ], CreateOrderDto.prototype, "createdAt");
     __decorate([
-        class_validator_1.IsString(),
-        class_validator_1.IsNotEmpty()
-    ], CreateInputDto.prototype, "usedPercentage");
-    return CreateInputDto;
+        class_validator_1.IsArray(),
+        class_validator_1.IsString({ each: true })
+    ], CreateOrderDto.prototype, "productsIds");
+    return CreateOrderDto;
 }());
-exports.CreateInputDto = CreateInputDto;
+exports.CreateOrderDto = CreateOrderDto;

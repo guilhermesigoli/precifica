@@ -7,17 +7,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 exports.__esModule = true;
 exports.AppModule = void 0;
-var calculation_service_1 = require("./services/calculation.service");
-var product_service_1 = require("src/services/product.service");
-var index_1 = require("src/database/migrations/index");
-var index_2 = require("src/database/models/index");
 var common_1 = require("@nestjs/common");
+var typeorm_1 = require("@nestjs/typeorm");
 var app_controller_1 = require("src/app.controller");
 var app_service_1 = require("src/app.service");
-var typeorm_1 = require("@nestjs/typeorm");
 var user_controller_1 = require("src/controllers/user.controller");
 var user_service_1 = require("src/services/user.service");
 var product_controller_1 = require("src/controllers/product.controller");
+var product_service_1 = require("src/services/product.service");
+var order_controller_1 = require("src/controllers/order.controller");
+var order_service_1 = require("src/services/order.service");
+var report_controller_1 = require("src/controllers/report.controller");
+var report_service_1 = require("src/services/report.service");
+var calculation_service_1 = require("src/services/calculation.service");
+var index_1 = require("src/database/migrations/index");
+var index_2 = require("src/database/models/index");
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
@@ -28,7 +32,7 @@ var AppModule = /** @class */ (function () {
                     type: 'postgres',
                     host: 'localhost',
                     port: 5432,
-                    username: 'root',
+                    username: 'postgres',
                     password: 'root',
                     database: 'precifica',
                     synchronize: true,
@@ -40,8 +44,21 @@ var AppModule = /** @class */ (function () {
                 }),
                 typeorm_1.TypeOrmModule.forFeature(index_2.entities),
             ],
-            controllers: [app_controller_1.AppController, user_controller_1.UserController, product_controller_1.ProductController],
-            providers: [app_service_1.AppService, user_service_1.UserService, product_service_1.ProductService, calculation_service_1.CalculationService]
+            controllers: [
+                app_controller_1.AppController,
+                user_controller_1.UserController,
+                product_controller_1.ProductController,
+                order_controller_1.OrderController,
+                report_controller_1.ReportController
+            ],
+            providers: [
+                app_service_1.AppService,
+                user_service_1.UserService,
+                product_service_1.ProductService,
+                order_service_1.OrderService,
+                calculation_service_1.CalculationService,
+                report_service_1.ReportService
+            ]
         })
     ], AppModule);
     return AppModule;

@@ -6,23 +6,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 exports.__esModule = true;
-exports.UserRegistrationInputDto = void 0;
+exports.GenerateReportInputDto = void 0;
 var class_validator_1 = require("class-validator");
-var UserRegistrationInputDto = /** @class */ (function () {
-    function UserRegistrationInputDto() {
+var GenerateReportInputDto = /** @class */ (function () {
+    function GenerateReportInputDto() {
     }
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], UserRegistrationInputDto.prototype, "name");
+    ], GenerateReportInputDto.prototype, "initialDate");
     __decorate([
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
-    ], UserRegistrationInputDto.prototype, "email");
-    __decorate([
-        class_validator_1.IsString(),
-        class_validator_1.IsNotEmpty()
-    ], UserRegistrationInputDto.prototype, "password");
-    return UserRegistrationInputDto;
+    ], GenerateReportInputDto.prototype, "finalDate");
+    return GenerateReportInputDto;
 }());
-exports.UserRegistrationInputDto = UserRegistrationInputDto;
+exports.GenerateReportInputDto = GenerateReportInputDto;

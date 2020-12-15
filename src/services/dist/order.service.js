@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -56,70 +45,70 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.ProductService = void 0;
-var input_model_1 = require("./../database/models/input.model");
-var calculation_service_1 = require("./calculation.service");
+exports.OrderService = void 0;
 var common_1 = require("@nestjs/common");
 var typeorm_1 = require("typeorm");
 var typeorm_2 = require("@nestjs/typeorm");
+var calculation_service_1 = require("./calculation.service");
+var order_model_1 = require("src/database/models/order.model");
 var product_model_1 = require("src/database/models/product.model");
-var ProductService = /** @class */ (function () {
-    function ProductService(productRepository, calculationService) {
-        this.productRepository = productRepository;
-        this.calculationService = calculationService;
+var OrderService = /** @class */ (function () {
+    function OrderService(orderRepository) {
+        this.orderRepository = orderRepository;
     }
-    ProductService.prototype.listProducts = function () {
+    OrderService.prototype.listOrders = function () {
         return __awaiter(this, void 0, Promise, function () {
-            var _a, products, total;
+            var _a, orders, total;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.productRepository.findAndCount({
-                            where: { isAvaible: true },
-                            select: ['id', 'name', 'totalPrice']
+                    case 0: return [4 /*yield*/, this.orderRepository.findAndCount({
+                            where: { isAvaible: true }
                         })];
                     case 1:
-                        _a = _b.sent(), products = _a[0], total = _a[1];
+                        _a = _b.sent(), orders = _a[0], total = _a[1];
                         return [2 /*return*/, {
-                                products: products,
+                                orders: orders,
                                 total: total
                             }];
                 }
             });
         });
     };
-    ProductService.prototype.getOneProduct = function (id) {
+    OrderService.prototype.getOneOrder = function (id) {
         return __awaiter(this, void 0, Promise, function () {
-            var product;
+            var order;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.productRepository.findOne({
+                    case 0: return [4 /*yield*/, this.orderRepository.findOne({
                             where: {
                                 id: id
                             },
-                            relations: ['inputs']
+                            relations: ['products']
                         })];
                     case 1:
-                        product = _a.sent();
-                        if (!product) {
-                            throw new common_1.HttpException('Product not found', common_1.HttpStatus.NOT_FOUND);
+                        order = _a.sent();
+                        if (!order) {
+                            throw new common_1.HttpException('Order not found', common_1.HttpStatus.NOT_FOUND);
                         }
-                        return [2 /*return*/, product];
+                        return [2 /*return*/, order];
                 }
             });
         });
     };
-    ProductService.prototype.deleteProduct = function (id) {
+    OrderService.prototype.deleteOrder = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var product;
+            var order;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.productRepository.findOne({ where: { id: id, isAvaible: true } })];
+                    case 0: return [4 /*yield*/, this.orderRepository.findOne({
+                            where: { id: id, isAvaible: true }
+                        })];
                     case 1:
-                        product = _a.sent();
-                        if (!product) {
-                            throw new common_1.HttpException('Product not found', common_1.HttpStatus.NOT_FOUND);
+                        order = _a.sent();
+                        if (!order) {
+                            throw new common_1.HttpException('Order not found', common_1.HttpStatus.NOT_FOUND);
                         }
-                        return [4 /*yield*/, this.productRepository.update({ id: id }, { isAvaible: false })];
+                        return [4 /*yield*/, this.orderRepository.update({ id: id }, { isAvaible: false })];
                     case 2:
                         _a.sent();
                         return [2 /*return*/];
@@ -127,49 +116,39 @@ var ProductService = /** @class */ (function () {
             });
         });
     };
-    ProductService.prototype.createProduct = function (body) {
+    OrderService.prototype.createOrder = function (body) {
         return __awaiter(this, void 0, Promise, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, typeorm_1.getConnection().transaction(function (transactionalEntityManager) { return __awaiter(_this, void 0, void 0, function () {
-                            var productRepository, inputRepository, inputsPrices, inputsTotalPrice, productTotalPrice, newProduct, _i, _a, input;
-                            return __generator(this, function (_b) {
-                                switch (_b.label) {
+                            var orderRepository, productRepository, products, productsTotalPrice, inputsTotalPrice;
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
                                     case 0:
+                                        orderRepository = transactionalEntityManager.getRepository(order_model_1.Order);
                                         productRepository = transactionalEntityManager.getRepository(product_model_1.Product);
-                                        inputRepository = transactionalEntityManager.getRepository(input_model_1.Input);
-                                        inputsPrices = body.inputs.map(function (input) {
-                                            return calculation_service_1.CalculationService.calcTotalPercent(input.totalPrice, input.usedPercentage);
-                                        });
-                                        inputsTotalPrice = '0';
-                                        inputsPrices.forEach(function (price) {
-                                            inputsTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, price);
-                                        });
-                                        productTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, calculation_service_1.CalculationService.calcTotalPercent(inputsTotalPrice, body.profitPercentage));
-                                        return [4 /*yield*/, productRepository.save({
-                                                name: body.name,
-                                                profitPercentage: body.profitPercentage,
-                                                totalPrice: productTotalPrice,
-                                                inputsPrice: inputsTotalPrice,
-                                                userId: body.userId,
-                                                isAvaible: true
+                                        return [4 /*yield*/, productRepository.find({
+                                                where: { id: typeorm_1.In(body.productsIds) }
                                             })];
                                     case 1:
-                                        newProduct = _b.sent();
-                                        _i = 0, _a = body.inputs;
-                                        _b.label = 2;
-                                    case 2:
-                                        if (!(_i < _a.length)) return [3 /*break*/, 5];
-                                        input = _a[_i];
-                                        return [4 /*yield*/, inputRepository.save(__assign(__assign({}, input), { productId: newProduct.id }))];
-                                    case 3:
-                                        _b.sent();
-                                        _b.label = 4;
-                                    case 4:
-                                        _i++;
-                                        return [3 /*break*/, 2];
-                                    case 5: return [2 /*return*/, newProduct];
+                                        products = _a.sent();
+                                        productsTotalPrice = '0';
+                                        products.forEach(function (product) {
+                                            productsTotalPrice = calculation_service_1.CalculationService.sum(productsTotalPrice, product.totalPrice);
+                                        });
+                                        inputsTotalPrice = '0';
+                                        products.forEach(function (product) {
+                                            inputsTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, product.inputsPrice);
+                                        });
+                                        return [4 /*yield*/, orderRepository.save({
+                                                inputsPrice: inputsTotalPrice,
+                                                totalPrice: productsTotalPrice,
+                                                isAvaible: true,
+                                                userId: body.userId,
+                                                createdAt: new Date()
+                                            })];
+                                    case 2: return [2 /*return*/, _a.sent()];
                                 }
                             });
                         }); })];
@@ -178,10 +157,10 @@ var ProductService = /** @class */ (function () {
             });
         });
     };
-    ProductService = __decorate([
+    OrderService = __decorate([
         common_1.Injectable(),
-        __param(0, typeorm_2.InjectRepository(product_model_1.Product))
-    ], ProductService);
-    return ProductService;
+        __param(0, typeorm_2.InjectRepository(order_model_1.Order))
+    ], OrderService);
+    return OrderService;
 }());
-exports.ProductService = ProductService;
+exports.OrderService = OrderService;
