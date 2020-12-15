@@ -1,10 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { getConnection, Repository } from 'typeorm';
+import { getConnection, In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CalculationService } from './calculation.service';
 import { Order } from 'src/database/models/order.model';
 import { IListOrders } from 'src/interfaces/list-order.interface';
 import { CreateOrderDto } from 'src/dtos/create-order-dto';
+import { Product } from 'src/database/models/product.model';
 
 @Injectable()
 export class OrderService {
@@ -15,7 +16,7 @@ export class OrderService {
 
   async listOrders(): Promise<IListOrders> {
     const [orders, total] = await this.orderRepository.findAndCount({
-      where: { isAvaible: true }
+      where: { isAvaible: true },
     });
 
     return {
@@ -27,7 +28,7 @@ export class OrderService {
   async getOneOrder(id: string): Promise<Order> {
     const order = await this.orderRepository.findOne({
       where: {
-        id
+        id,
       },
       relations: ['products'],
     });
@@ -35,7 +36,7 @@ export class OrderService {
     if (!order) {
       throw new HttpException('Order not found', HttpStatus.NOT_FOUND);
     }
-    
+
     return order;
   }
 
@@ -57,29 +58,36 @@ export class OrderService {
     return await getConnection().transaction(
       async (transactionalEntityManager) => {
         const orderRepository = transactionalEntityManager.getRepository(Order);
+        const productRepository = transactionalEntityManager.getRepository(
+          Product,
+        );
 
-        const calcService = (product) =>
-          parseFloat(
-            CalculationService.calcTotalPercent(
-              product.totalPrice,
-              product.profitPercentage,
-            ),
+        const products = await productRepository.find({
+          where: { id: In(body.productsIds) },
+        });
+
+        let productsTotalPrice = '0';
+        products.forEach((product) => {
+          productsTotalPrice = CalculationService.sum(
+            productsTotalPrice,
+            product.totalPrice,
           );
-        const sum = (p, aux) => (aux += p);
+        });
 
-        const inputsPrices = body.products.map(calcService).reduce(sum);
-
-        const totalPrice = body.products
-          .map((p) => parseFloat(p.totalPrice))
-          .reduce(sum);
-
+        let inputsTotalPrice = '0';
+        products.forEach((product) => {
+          inputsTotalPrice = CalculationService.sum(
+            inputsTotalPrice,
+            product.inputsPrice,
+          );
+        });
 
         return await orderRepository.save({
-          inputsPrice: inputsPrices.toString(),
-          totalPrice: totalPrice.toString(),
+          inputsPrice: inputsTotalPrice,
+          totalPrice: productsTotalPrice,
           isAvaible: true,
           userId: body.userId,
-          createdAt: new Date()
+          createdAt: new Date(),
         });
       },
     );
