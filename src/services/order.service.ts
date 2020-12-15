@@ -88,6 +88,7 @@ export class OrderService {
           isAvaible: true,
           userId: body.userId,
           createdAt: new Date(),
+          products,
         });
       },
     );

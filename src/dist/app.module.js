@@ -32,10 +32,11 @@ var AppModule = /** @class */ (function () {
                     type: 'postgres',
                     host: 'localhost',
                     port: 5432,
-                    username: 'postgres',
+                    username: 'root',
                     password: 'root',
                     database: 'precifica',
                     synchronize: true,
+                    logging: true,
                     entities: index_2.entities,
                     migrations: index_1.migrations,
                     cli: {
@@ -49,7 +50,7 @@ var AppModule = /** @class */ (function () {
                 user_controller_1.UserController,
                 product_controller_1.ProductController,
                 order_controller_1.OrderController,
-                report_controller_1.ReportController
+                report_controller_1.ReportController,
             ],
             providers: [
                 app_service_1.AppService,
@@ -57,7 +58,7 @@ var AppModule = /** @class */ (function () {
                 product_service_1.ProductService,
                 order_service_1.OrderService,
                 calculation_service_1.CalculationService,
-                report_service_1.ReportService
+                report_service_1.ReportService,
             ]
         })
     ], AppModule);

@@ -16,10 +16,6 @@ var CreateOrderDto = /** @class */ (function () {
         class_validator_1.IsNotEmpty()
     ], CreateOrderDto.prototype, "userId");
     __decorate([
-        class_validator_1.IsDate(),
-        class_validator_1.IsNotEmpty()
-    ], CreateOrderDto.prototype, "createdAt");
-    __decorate([
         class_validator_1.IsArray(),
         class_validator_1.IsString({ each: true })
     ], CreateOrderDto.prototype, "productsIds");

@@ -146,7 +146,8 @@ var OrderService = /** @class */ (function () {
                                                 totalPrice: productsTotalPrice,
                                                 isAvaible: true,
                                                 userId: body.userId,
-                                                createdAt: new Date()
+                                                createdAt: new Date(),
+                                                products: products
                                             })];
                                     case 2: return [2 /*return*/, _a.sent()];
                                 }

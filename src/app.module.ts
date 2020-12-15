@@ -20,10 +20,11 @@ import { entities } from 'src/database/models/index';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'postgres',
+      username: 'root',
       password: 'root',
       database: 'precifica',
       synchronize: true,
+      logging: true,
       entities: entities,
       migrations: migrations,
       cli: {

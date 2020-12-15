@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -44,25 +47,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.ReportService = void 0;
 var common_1 = require("@nestjs/common");
+var typeorm_1 = require("@nestjs/typeorm");
+var order_model_1 = require("src/database/models/order.model");
+var calculation_service_1 = require("src/services/calculation.service");
 var ReportService = /** @class */ (function () {
-    function ReportService() {
+    function ReportService(orderRepository) {
+        this.orderRepository = orderRepository;
     }
-    // constructor() {}
     ReportService.prototype.generateReport = function (params) {
         return __awaiter(this, void 0, void 0, function () {
+            var query, orders, ordersTotalPrice, inputsTotalPrice, profit;
             return __generator(this, function (_a) {
-                console.log(params);
-                return [2 /*return*/, {
-                        inputsTotal: '0',
-                        total: '0',
-                        profit: '0',
-                        profitPercentage: '0'
-                    }];
+                switch (_a.label) {
+                    case 0:
+                        query = this.orderRepository
+                            .createQueryBuilder('order')
+                            .select([
+                            'order.id',
+                            'order.totalPrice',
+                            'order.inputsPrice',
+                            'order.createdAt',
+                        ])
+                            .where('order.createdAt >= :initialDate', {
+                            initialDate: params.initialDate
+                        })
+                            .andWhere('order.createdAt <= :finalDate', {
+                            finalDate: params.finalDate
+                        });
+                        return [4 /*yield*/, query.getMany()];
+                    case 1:
+                        orders = _a.sent();
+                        if (orders.length < 1) {
+                            throw new common_1.HttpException('Orders not found', common_1.HttpStatus.NOT_FOUND);
+                        }
+                        ordersTotalPrice = '0';
+                        inputsTotalPrice = '0';
+                        orders.forEach(function (order) {
+                            ordersTotalPrice = calculation_service_1.CalculationService.sum(ordersTotalPrice, order.totalPrice);
+                            inputsTotalPrice = calculation_service_1.CalculationService.sum(inputsTotalPrice, order.inputsPrice);
+                        });
+                        profit = calculation_service_1.CalculationService.sub(ordersTotalPrice, inputsTotalPrice);
+                        return [2 /*return*/, {
+                                inputsTotal: inputsTotalPrice,
+                                total: ordersTotalPrice,
+                                profit: profit
+                            }];
+                }
             });
         });
     };
     ReportService = __decorate([
-        common_1.Injectable()
+        common_1.Injectable(),
+        __param(0, typeorm_1.InjectRepository(order_model_1.Order))
     ], ReportService);
     return ReportService;
 }());
