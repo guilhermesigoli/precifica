@@ -37,7 +37,7 @@ import { entities } from 'src/database/models/index';
     UserController,
     ProductController,
     OrderController,
-    ReportController
+    ReportController,
   ],
   providers: [
     AppService,
@@ -45,7 +45,7 @@ import { entities } from 'src/database/models/index';
     ProductService,
     OrderService,
     CalculationService,
-    ReportService
+    ReportService,
   ],
 })
 export class AppModule {}
