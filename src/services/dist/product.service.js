@@ -75,7 +75,7 @@ var ProductService = /** @class */ (function () {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.productRepository.findAndCount({
                             where: { id: id, isAvaible: true },
-                            select: ['id', 'name', 'totalPrice']
+                            select: ['id', 'name', 'totalPrice', 'isAvaible']
                         })];
                     case 1:
                         _a = _b.sent(), products = _a[0], total = _a[1];
