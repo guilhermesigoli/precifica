@@ -15,9 +15,9 @@ export class ProductService {
     private readonly calculationService: CalculationService,
   ) {}
 
-  async listProducts(): Promise<IListProducts> {
+  async listProducts(id: string): Promise<IListProducts> {
     const [products, total] = await this.productRepository.findAndCount({
-      where: { isAvaible: true },
+      where: { id, isAvaible: true },
       select: ['id', 'name', 'totalPrice'],
     });
 

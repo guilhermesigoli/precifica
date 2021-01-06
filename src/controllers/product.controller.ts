@@ -9,8 +9,10 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  listProducts(): Promise<IListProducts> {
-    return this.productService.listProducts();
+  listProducts(
+    @Param('user') userId: string
+  ): Promise<IListProducts> {
+    return this.productService.listProducts(userId);
   }
 
   @Post()

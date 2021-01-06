@@ -9,8 +9,10 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Get()
-  listOrders(): Promise<IListOrders> {
-    return this.orderService.listOrders();
+  listOrders(
+    @Param('user') userId: string
+  ): Promise<IListOrders> {
+    return this.orderService.listOrders(userId);
   }
 
   @Post()
