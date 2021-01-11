@@ -8,4 +8,8 @@ export class GenerateReportInputDto {
   @IsString()
   @IsNotEmpty()
   finalDate!: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user!:string;
 }

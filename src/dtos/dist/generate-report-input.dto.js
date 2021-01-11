@@ -19,6 +19,10 @@ var GenerateReportInputDto = /** @class */ (function () {
         class_validator_1.IsString(),
         class_validator_1.IsNotEmpty()
     ], GenerateReportInputDto.prototype, "finalDate");
+    __decorate([
+        class_validator_1.IsString(),
+        class_validator_1.IsNotEmpty()
+    ], GenerateReportInputDto.prototype, "user");
     return GenerateReportInputDto;
 }());
 exports.GenerateReportInputDto = GenerateReportInputDto;

@@ -73,6 +73,9 @@ var ReportService = /** @class */ (function () {
                         })
                             .andWhere('order.createdAt <= :finalDate', {
                             finalDate: params.finalDate
+                        })
+                            .andWhere('order.userId = :userId', {
+                            userId: params.user
                         });
                         return [4 /*yield*/, query.getMany()];
                     case 1:

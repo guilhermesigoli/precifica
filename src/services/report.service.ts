@@ -26,6 +26,9 @@ export class ReportService {
       })
       .andWhere('order.createdAt <= :finalDate', {
         finalDate: params.finalDate,
+      })
+      .andWhere('order.userId = :userId', {
+        userId: params.user
       });
 
     const orders = await query.getMany();
