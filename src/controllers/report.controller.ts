@@ -11,6 +11,7 @@ export class ReportController {
   generateReport(
     @Query() params: GenerateReportInputDto,
   ): Promise<IReportResponse> {
+    console.log(params)
     return this.reportService.generateReport(params);
   }
 }

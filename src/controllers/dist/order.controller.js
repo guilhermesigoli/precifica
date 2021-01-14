@@ -28,7 +28,7 @@ var OrderController = /** @class */ (function () {
         return this.orderService.getOneOrder(id);
     };
     __decorate([
-        common_1.Get("all/:user"),
+        common_1.Get("/all/:user"),
         __param(0, common_1.Param('user'))
     ], OrderController.prototype, "listOrders");
     __decorate([

@@ -28,7 +28,7 @@ var ProductController = /** @class */ (function () {
         return this.productService.getOneProduct(id);
     };
     __decorate([
-        common_1.Get("all/:user"),
+        common_1.Get("/all/:user"),
         __param(0, common_1.Param('user'))
     ], ProductController.prototype, "listProducts");
     __decorate([

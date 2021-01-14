@@ -16,6 +16,7 @@ var ReportController = /** @class */ (function () {
         this.reportService = reportService;
     }
     ReportController.prototype.generateReport = function (params) {
+        console.log(params);
         return this.reportService.generateReport(params);
     };
     __decorate([
