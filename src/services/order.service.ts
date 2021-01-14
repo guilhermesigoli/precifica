@@ -14,9 +14,9 @@ export class OrderService {
     private readonly orderRepository: Repository<Order>,
   ) {}
 
-  async listOrders(id: string): Promise<IListOrders> {
+  async listOrders(userId: string): Promise<IListOrders> {
     const [orders, total] = await this.orderRepository.findAndCount({
-      where: { id, isAvaible: true },
+      where: { userId: userId, isAvaible: true },
     });
 
     return {

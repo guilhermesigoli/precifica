@@ -68,14 +68,14 @@ var ProductService = /** @class */ (function () {
         this.productRepository = productRepository;
         this.calculationService = calculationService;
     }
-    ProductService.prototype.listProducts = function (id) {
+    ProductService.prototype.listProducts = function (userId) {
         return __awaiter(this, void 0, Promise, function () {
             var _a, products, total;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.productRepository.findAndCount({
-                            where: { id: id, isAvaible: true },
-                            select: ['id', 'name', 'totalPrice', 'isAvaible']
+                            where: { userId: userId, isAvaible: true },
+                            select: ['id', 'name', 'totalPrice', 'isAvaible', 'userId']
                         })];
                     case 1:
                         _a = _b.sent(), products = _a[0], total = _a[1];

@@ -15,10 +15,10 @@ export class ProductService {
     private readonly calculationService: CalculationService,
   ) {}
 
-  async listProducts(id: string): Promise<IListProducts> {
+  async listProducts(userId: string): Promise<IListProducts> {
     const [products, total] = await this.productRepository.findAndCount({
-      where: { id, isAvaible: true },
-      select: ['id', 'name', 'totalPrice', 'isAvaible'],
+      where: { userId: userId, isAvaible: true },
+      select: ['id', 'name', 'totalPrice', 'isAvaible', 'userId'],
     });
 
     return {

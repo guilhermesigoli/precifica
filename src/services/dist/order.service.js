@@ -56,13 +56,13 @@ var OrderService = /** @class */ (function () {
     function OrderService(orderRepository) {
         this.orderRepository = orderRepository;
     }
-    OrderService.prototype.listOrders = function (id) {
+    OrderService.prototype.listOrders = function (userId) {
         return __awaiter(this, void 0, Promise, function () {
             var _a, orders, total;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0: return [4 /*yield*/, this.orderRepository.findAndCount({
-                            where: { id: id, isAvaible: true }
+                            where: { userId: userId, isAvaible: true }
                         })];
                     case 1:
                         _a = _b.sent(), orders = _a[0], total = _a[1];

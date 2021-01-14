@@ -67,6 +67,7 @@ var ReportService = /** @class */ (function () {
                             'order.totalPrice',
                             'order.inputsPrice',
                             'order.createdAt',
+                            'order.userId'
                         ])
                             .where('order.createdAt >= :initialDate', {
                             initialDate: params.initialDate
