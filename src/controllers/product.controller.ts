@@ -8,7 +8,7 @@ import { ProductService } from 'src/services/product.service';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get()
+  @Get("all/:user")
   listProducts(
     @Param('user') userId: string
   ): Promise<IListProducts> {

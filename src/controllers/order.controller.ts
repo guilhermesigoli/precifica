@@ -8,7 +8,7 @@ import { OrderService } from 'src/services/order.service';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get()
+  @Get("all/:user")
   listOrders(
     @Param('user') userId: string
   ): Promise<IListOrders> {
